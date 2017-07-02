@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/3.1.1/css/tabulator.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/3.1.1/js/tabulator.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Twitter Read list</title>
+</head>
+<body>
+<h2>Generate a list of popular resources for a topic</h2>
+<form id="load-data" onsubmit="return false;">
+    <label>Twitter Query</label>
+    <input id="search-query" type="text" value="wso2"/>
+
+    <!--Blah Blah Blah-->
+    <input type="submit" value="Reload data"/>
+</form>
+<br />
+<div id="example-table"></div>
+
+<script>
+$("#example-table").tabulator({
+  columns:[
+    {title:"Score", field:"score", sortable:true, sorter:"number", width:100},
+    {title:"URL", field:"url", sortable:true, formatter:"link"}
+  ],
+  fitColumns:true,
+  initialSort:[
+        {column:"score", dir:"desc"}
+  ],
+});
+
+var sampleData = [
+  {score:3, url:"http://google.com"},
+  {score:1, url:"http://wso2.com"},
+  {score:2, url:"http://twitter.com"},
+];
+
+$("#example-table").tabulator("setData", "http://localhost:9090/twitter-reading-list?q=wso2");
+
+
+$('#load-data').bind('submit',function(e) {
+  e.preventDefault(); //Will prevent the submit...
+  //Add additional code here
+
+  var searchQuery = $('#search-query').val();
+ $("#example-table").tabulator("setData", "http://localhost:9090/twitter-reading-list?q=" + searchQuery);
+
+});
+</script>
+
+</body>
+</html>
